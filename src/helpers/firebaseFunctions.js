@@ -8,7 +8,7 @@ export async function addEntry(db, data, userID) {
   else {
     try {
     const docRef = await setDoc(doc(db, "users", userID), {
-      name: "New User",
+      name: Date.now(),
       quests: [data]
     });
     console.log("Document written with ID: ", userID);
@@ -21,8 +21,18 @@ export async function addEntry(db, data, userID) {
 export async function readEntries(db) {
   const querySnapshot = await getDocs(collection(db, "users"));
   querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data().quests[0].desc}`);
+    console.log(`${doc.id} => ${doc.data()}`);
   });
+}
+
+export async function getQuestEntries(db, uid) {
+  const docRef = doc(db, "users", uid);
+  const docData = await getDoc(docRef)
+  if (docData.exists()) {
+    return docData.data()
+  } else {
+    console.log("No entries")
+  }
 }
 
 export function signIn(auth, email, password) {
@@ -34,23 +44,29 @@ export function signIn(auth, email, password) {
           const user = userCredential.user;
         })
         .catch((error) => {
-          console.log("Wrong password boy")
           const errorCode = error.code;
           const errorMessage = error.message;
+          alert(errorCode);
         });
     })
 }
 
-export function registerNewUser(auth, email, password) {
+export function registerNewUser(auth, email, password, db) {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       alert('User Registered')
-      const user = userCredential.user;
+      const user = userCredential.user
+      return user
     })
+    .then(async (user) => {
+        const docRef = await setDoc(doc(db, "users", user.uid), {
+          name: Date.now(),
+          quests: []
+        });
+      })
     .catch((error) => {
-      alert('User could not be registered')
-      const errorCode = error.code;
       const errorMessage = error.message;
+      alert(errorMessage)
     })
 }
 
@@ -77,13 +93,12 @@ export async function addQuestToArray(db, data, uid) {
         transaction.update(sfDocRef, { quests: questArray });
         return questTotal;
       } else {
-        return Promise.reject("Sorry! Population is too big");
+        return Promise.reject("Sorry! Too many quests!");
       }
     });
   
-    console.log("Population increased to ", newQuest);
+    window.location.reload();
   } catch (e) {
-    // This will be a "population is too big" error.
     console.error(e);
   }
 }
