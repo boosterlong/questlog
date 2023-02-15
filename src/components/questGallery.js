@@ -10,9 +10,8 @@ export function QuestGallery(props) {
   if (!questGallery) {
     getQuestEntries(props.db, props.uid)
     .then((data) => {
-      console.log(data)
       setQuestName(`${data.name}'s Quests`)
-      setQuestGallery(data.quests.map(quest => <QuestCard questInfo={quest}/>))
+      setQuestGallery(data.quests.map((quest, index) => <QuestCard questInfo={quest} db={props.db} index={index} uid={props.uid} key={`questCard${index}`}/>))
     });
   }
 

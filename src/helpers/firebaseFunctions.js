@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, getDocs, runTransaction, getDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, runTransaction, getDoc, updateDoc, deleteField } from "firebase/firestore";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, setPersistence, browserSessionPersistence } from "firebase/auth";
 
 export async function addEntry(db, data, userID) {
@@ -45,8 +45,9 @@ export function signIn(auth, email, password) {
         })
         .catch((error) => {
           const errorCode = error.code;
+          console.log(errorCode)
           const errorMessage = error.message;
-          alert(errorCode);
+          alert(errorMessage);
         });
     })
 }
@@ -65,8 +66,20 @@ export function registerNewUser(auth, email, password, db) {
         });
       })
     .catch((error) => {
-      const errorMessage = error.message;
-      alert(errorMessage)
+      console.log(error.code);
+      switch(error.code) {
+        case 'auth/invalid-email':
+          alert('Invalid Email.')
+          break;
+        case 'auth/email-already-in-use':
+          alert('Email already in use.')
+          break;
+        case 'auth/weak-password':
+          alert('Invalid Password.')
+          break;
+        default:
+          alert('Something went wrong, user not registered.')
+      }
     })
 }
 
@@ -95,6 +108,53 @@ export async function addQuestToArray(db, data, uid) {
       } else {
         return Promise.reject("Sorry! Too many quests!");
       }
+    });
+  
+    window.location.reload();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function removeQuestFromArray(db, uid, index) {
+
+  const sfDocRef = doc(db, "users", uid);
+
+  try {
+    const quest = await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(sfDocRef);
+      if (!sfDoc.exists()) {
+        throw "Document does not exist!";
+      }
+  
+      const questTotal = sfDoc.data().quests.length - 1;
+      const questArray = sfDoc.data().quests
+      questArray.splice(index, 1)
+      transaction.update(sfDocRef, { quests: questArray });
+      return questTotal;
+    });
+  
+    window.location.reload();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function editQuestInArray(db, uid, index, questData) {
+
+  const sfDocRef = doc(db, "users", uid);
+
+  try {
+    const newQuest = await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(sfDocRef);
+      if (!sfDoc.exists()) {
+        throw "Document does not exist!";
+      }
+      const questArray = sfDoc.data().quests
+      questArray[index] = questData
+
+      transaction.update(sfDocRef, { quests: questArray });
+      return 'Quest Updated';
     });
   
     window.location.reload();

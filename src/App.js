@@ -27,7 +27,7 @@ function App() {
   });
 
   return (
-    <div className="App max-w-[650px] mx-auto p-3 border border-black my-3">
+    <div className="App max-w-[650px] mx-auto p-3">
       {/*
       !uid is logged out, uid is logged in. There's probably a better / more
       secure way to do this, but this works for now.
