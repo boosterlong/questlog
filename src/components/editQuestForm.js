@@ -26,7 +26,7 @@ export function EditQuestForm(props) {
     }
 
   return (
-    <div>
+    <div className="text-black">
       <input
         className="border border-grey rounded-sm p-1 my-1 w-full"
         placeholder='Name'

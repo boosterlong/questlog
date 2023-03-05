@@ -15,7 +15,7 @@ export function LoginForm() {
   const [registerPassword, setRegisterPassword] = useState('');
 
   return (
-    <div className="p-3 rounded-md bg-white w-full sm:w-[50%] mx-auto drop-shadow-md">
+    <div className="m-3 p-3 rounded-md bg-white w-full sm:w-[50%] mx-auto drop-shadow-md">
       <input
         className="border border-grey rounded-sm p-1 my-1 w-full"
         placeholder='Email'

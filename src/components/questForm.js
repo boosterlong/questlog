@@ -44,7 +44,7 @@ export function QuestForm(props) {
           onInput={e => setQuestCompletion(e.target.value)}></input>
         <input
           className="border border-grey rounded-sm p-1 my-1 w-full"
-          placeholder='True or False'
+          placeholder='Completed? True or False'
           onInput={e => setQuestCompleted(e.target.value)}></input>
         <button
           className="rounded-full bg-blue-500 p-2 text-white mt-2 w-full"
