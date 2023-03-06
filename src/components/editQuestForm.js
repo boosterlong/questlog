@@ -5,7 +5,7 @@ import { editQuestInArray } from '../helpers/firebaseFunctions';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-const app = initializeApp(process.env.FIREBASECONFIG);
+const app = initializeApp(process.env.REACT_APP_FIREBASECONFIG);
 const db = getFirestore(app);
 
 export function EditQuestForm(props) {

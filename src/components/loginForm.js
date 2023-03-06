@@ -5,7 +5,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-const app = initializeApp(process.env.FIREBASECONFIG);
+const app = initializeApp(process.env.REACT_APP_FIREBASECONFIG);
 const auth = getAuth(app);
 const db = getFirestore(app);
 

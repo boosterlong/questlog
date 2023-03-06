@@ -12,7 +12,7 @@ import { QuestViewer } from './components/questViewer';
 import { copyLink } from './helpers/copyLink';
 
 
-const app = initializeApp(process.env.FIREBASECONFIG);
+const app = initializeApp(process.env.REACT_APP_FIREBASECONFIG);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
