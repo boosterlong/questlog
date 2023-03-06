@@ -3,10 +3,9 @@ import { useState } from "react";
 import { registerNewUser, signIn } from "../helpers/firebaseFunctions";
 import { getAuth, signOut } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../helpers/firebaseConfig";
 import { getFirestore } from "firebase/firestore";
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(process.env.FIREBASECONFIG);
 const auth = getAuth(app);
 const db = getFirestore(app);
 

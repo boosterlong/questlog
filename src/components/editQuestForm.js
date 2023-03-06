@@ -3,10 +3,9 @@ import { useState } from "react";
 import { QuestInfo, questInfoToFirestore } from '../objects/questInfo';
 import { editQuestInArray } from '../helpers/firebaseFunctions';
 import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../helpers/firebaseConfig";
 import { getFirestore } from "firebase/firestore";
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(process.env.FIREBASECONFIG);
 const db = getFirestore(app);
 
 export function EditQuestForm(props) {

@@ -2,7 +2,6 @@ import './App.css';
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { firebaseConfig } from './helpers/firebaseConfig';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LoginForm } from './components/loginForm';
 import { QuestForm } from './components/questForm';
@@ -13,7 +12,7 @@ import { QuestViewer } from './components/questViewer';
 import { copyLink } from './helpers/copyLink';
 
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(process.env.FIREBASECONFIG);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
